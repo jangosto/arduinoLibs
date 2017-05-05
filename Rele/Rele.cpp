@@ -3,6 +3,7 @@
 Rele::Rele(int pin)
 {
     setPinNum(pin);
+    setEnabled(false);
 }
 
 int Rele::getPinNum()
