@@ -1,5 +1,9 @@
 #include "Rele.h"
 
+Rele::Rele()
+{
+}
+
 Rele::Rele(int pin)
 {
     pinNum = pin;

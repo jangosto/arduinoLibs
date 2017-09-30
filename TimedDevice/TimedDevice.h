@@ -1,11 +1,13 @@
 #ifndef TIMEDDEVICE_H
 #define TIMEDDEVICE_H
 
-#include <Rele.h>
+#include "Arduino.h"
+#include "../Rele/Rele.h"
 
 class TimedDevice
 {
     public:
+        TimedDevice();
         TimedDevice(int, unsigned long, unsigned long);
 
         int getPinNum();
@@ -16,8 +18,8 @@ class TimedDevice
         unsigned long setOnTime(unsigned long);
         boolean updateStatus();
 
-    private
-        Rele rele
+    private:
+        Rele* rele;
         int pinNum;
         unsigned long offTime;
         unsigned long onTime;
@@ -26,6 +28,6 @@ class TimedDevice
 
 	unsigned long increaseCurrentTime();
 	void resetCurrentTime();
-}
+};
 
 #endif

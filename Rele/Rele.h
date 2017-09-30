@@ -6,6 +6,7 @@
 class Rele
 {
     public:
+        Rele();
         Rele(int);
 
         int getPinNum();
@@ -16,6 +17,6 @@ class Rele
     private:
         int pinNum;
         boolean enabled;
-}
+};
 
 #endif

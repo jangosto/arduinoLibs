@@ -1,6 +1,10 @@
 # include "TimedDevice.h"
 
-TimedDevice(int pin, unsigned long newOnTime, unsigned long newOffTime)
+TimedDevice::TimedDevice()
+{
+}
+
+TimedDevice::TimedDevice(int pin, unsigned long newOnTime, unsigned long newOffTime)
 {
     pinNum = pin;
     onTime = newOnTime;
@@ -8,7 +12,7 @@ TimedDevice(int pin, unsigned long newOnTime, unsigned long newOffTime)
     enabled = false;
     currentTime = 0;
 
-    Rele rele = new Rele(pin);
+    rele = new Rele(pin);
 }
 
 int TimedDevice::getPinNum()
@@ -49,10 +53,12 @@ boolean TimedDevice::updateStatus()
 
     time = increaseCurrentTime();
     if (time >= onTime && enabled == true) {
-        rele.disable();
+        rele->disable();
+        enabled = false;
         resetCurrentTime();
     } else if (time >= offTime && enabled == false) {
-        rele.enable();
+        rele->enable();
+        enabled = true;
         resetCurrentTime();
     }
 
