@@ -1,8 +1,7 @@
 #ifndef TIMEDDEVICE_H
 #define TIMEDDEVICE_H
 
-#include "TimeOne.h"
-#include "Rele.h"
+#include <Rele.h>
 
 class TimedDevice
 {
@@ -13,22 +12,20 @@ class TimedDevice
         unsigned long getOffTime();
         unsigned long getOnTime();
         boolean getEnabled();
-        boolean enable();
-        boolean disable();        
-        Rele getRele();
+	unsigned long setOffTime(unsigned long);
+        unsigned long setOnTime(unsigned long);
+        boolean updateStatus();
 
     private
         Rele rele
         int pinNum;
         unsigned long offTime;
         unsigned long onTime;
+	unsigned long currentTime;
         boolean enabled;
 
-        int setPinNum(int);
-        unsigned long setOffTime(unsigned long);
-        unsigned long setOnTime(unsigned long);
-        boolean setEnabled(boolean);
-        Rele setRele(Rele);
+	unsigned long increaseCurrentTime();
+	void resetCurrentTime();
 }
 
 #endif

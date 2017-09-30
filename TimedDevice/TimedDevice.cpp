@@ -1,14 +1,14 @@
 # include "TimedDevice.h"
 
-TimedDevice(int pin, unsigned long onTime, unsigned long offTime)
+TimedDevice(int pin, unsigned long newOnTime, unsigned long newOffTime)
 {
-    setPinNum(pin);
-    setOnTime(onTime);
-    setOffTime(offTime);
-    setEnabled(false);
+    pinNum = pin;
+    onTime = newOnTime;
+    offTime = newOffTime;
+    enabled = false;
+    currentTime = 0;
 
-    rele = new Rele(pin);
-    setRele(rele);
+    Rele rele = new Rele(pin);
 }
 
 int TimedDevice::getPinNum()
@@ -31,17 +31,6 @@ boolean TimedDevice::getEnabled()
     return enabled;
 }
 
-Rele TimedDevice::getRele()
-{
-    return rele;
-}
-
-int TimedDevice::setPinNum(int pin)
-{
-    pinNum = pin;
-    return pinNum;
-}
-
 unsigned long TimedDevice::setOffTime(unsigned long time)
 {
     offTime = time;
@@ -54,14 +43,29 @@ unsigned long TimedDevice::setOnTime(unsigned long time)
     return onTime;
 }
 
-boolean TimedDevice::setEnabled(boolean en)
+boolean TimedDevice::updateStatus()
 {
-    enabled = en;
+    unsigned long time;
+
+    time = increaseCurrentTime();
+    if (time >= onTime && enabled == true) {
+        rele.disable();
+        resetCurrentTime();
+    } else if (time >= offTime && enabled == false) {
+        rele.enable();
+        resetCurrentTime();
+    }
+
     return enabled;
 }
 
-Rele TimedDevice::setRele(Rele re)
+unsigned long TimedDevice::increaseCurrentTime()
 {
-    rele = re;
-    return rele;
+    currentTime++;
+    return currentTime;
+}
+
+void TimedDevice::resetCurrentTime()
+{
+    currentTime = 0;
 }

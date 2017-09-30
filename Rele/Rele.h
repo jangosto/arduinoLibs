@@ -16,9 +16,6 @@ class Rele
     private:
         int pinNum;
         boolean enabled;
-
-        boolean setEnabled(boolean);
-        int setPinNum(int);
 }
 
 #endif

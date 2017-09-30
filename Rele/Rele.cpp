@@ -2,8 +2,9 @@
 
 Rele::Rele(int pin)
 {
-    setPinNum(pin);
-    setEnabled(false);
+    pinNum = pin;
+    pinMode(pinNum, OUTPUT);
+    enabled = false;
 }
 
 int Rele::getPinNum()
@@ -18,8 +19,8 @@ boolean Rele::getEnabled()
 
 boolean Rele::enable()
 {
-    digitalWrite(piNum, LOW);
-    setEnabled(true);
+    digitalWrite(pinNum, LOW);
+    enabled = true;
 
     return enabled;
 }
@@ -27,19 +28,7 @@ boolean Rele::enable()
 boolean Rele::disable()
 {
     digitalWrite(pinNum, HIGH);
-    setEnabled(false);
+    enabled = false;
 
     return enabled;
-}
-
-boolean Rele::setEnabled(boolean en)
-{
-    enabled = en;
-    return enabled;
-}
-
-int Rele::setPinNum(int pin)
-{
-    pinNum = pin;
-    return pinNum;
 }
