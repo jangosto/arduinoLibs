@@ -3,14 +3,34 @@
 
 #include "Arduino.h"
 
+/**
+    Rele Class
+    It manages a rele
+*/
 class Rele
 {
     public:
+        /**
+            Contructor
+            @param connected rele pin number
+        */
         Rele(int);
 
+        /**
+            Get pi number
+        */
         int getPinNum();
+        /**
+            Get if rele status is "enabled"
+        */
         boolean getEnabled();
+        /**
+            Enables rele
+        */
         boolean enable();
+        /**
+            Disable rele
+        */
         boolean disable();
 
     private:

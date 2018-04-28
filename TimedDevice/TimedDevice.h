@@ -4,17 +4,50 @@
 #include "Arduino.h"
 #include "../Rele/Rele.h"
 
+/**
+    Timed Device Class
+    It manage a device with a working period (time being ON and time being OFF)
+*/
 class TimedDevice
 {
     public:
+        /**
+            Contructor
+            @param connected device pin number
+            @param device ON status time
+            @param device OFF status time
+        */
         TimedDevice(int, unsigned long, unsigned long);
 
+        /**
+            Get connected device pin number
+        */
         int getPinNum();
+        /**
+            Get device OFF status time
+        */
         unsigned long getOffTime();
+        /**
+            Get device ON status time
+        */
         unsigned long getOnTime();
+        /**
+            Get if device status is ON
+        */
         boolean getEnabled();
-	unsigned long setOffTime(unsigned long);
+        /**
+            Set device OFF status time 
+            @param desired device OFF status time
+        */
+	    unsigned long setOffTime(unsigned long);
+        /**
+            Set device ON status time
+            @param desired device ON status time
+        */
         unsigned long setOnTime(unsigned long);
+        /**
+            Update status device depending times setted and current counted time
+        */
         boolean updateStatus();
 
     private:
@@ -22,11 +55,17 @@ class TimedDevice
         int pinNum;
         unsigned long offTime;
         unsigned long onTime;
-	unsigned long currentTime;
+	    unsigned long currentTime;
         boolean enabled;
 
-	unsigned long increaseCurrentTime();
-	void resetCurrentTime();
+        /**
+            Increase the current time counter
+        */
+	    unsigned long increaseCurrentTime();
+        /**
+            Reset (with value 0) the current time counter
+        */
+	    void resetCurrentTime();
 };
 
 TimedDevice::TimedDevice(int pin, unsigned long newOnTime, unsigned long newOffTime)
