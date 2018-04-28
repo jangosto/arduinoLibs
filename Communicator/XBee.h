@@ -34,7 +34,12 @@ class XBee
             Set a message in message out buffer
             @param message
         */
-        boolean setMessage(char*);
+        boolean setMessageIn(char*);
+        /**
+            Set a message in message in buffer
+            @param message
+        */
+        boolean setMessageOut(char*);
         /**
             Send message setted in out buffer
         */
@@ -47,16 +52,21 @@ XBee::XBee()
 
 boolean XBee::sendMessage(char* msg)
 {
-    setMessage(msg);
+    setMessageOut(msg);
     send();
 }
 
-boolean XBee::setMessage(char* msg)
+boolean XBee::setMessageOut(char* msg)
 {
-    return !(strcmp(strcpy(message, msg), msg));
+    return !(strcmp(strcpy(messageOut, msg), msg));
+}
+
+boolean XBee::setMessageIn(char* msg)
+{
+    return !(strcmp(strcpy(messageIn, msg), msg));
 }
 
 boolean XBee::send()
 {
-    return !!(Serial.print(message));
+    return !!(Serial.print(messageOut));
 }

@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include "Arduino.h"
+#include "Xbee.h"
 
 /**
     Communicator Class.
@@ -41,6 +42,9 @@ class Communicator
 
     private:
         char address[10];
+        char rxAdress[10];
+        char rxAction[10];
+        char rxValue[10];
         char rxCommand[30];
         char txAddress[10];
         char txAction[10];
@@ -53,21 +57,130 @@ class Communicator
         */
         boolean setAddress(char*);
         /**
-            Set command
+            Set Rx command
             @param command
         */
-        boolean setCommand(char*);
+        boolean setRxCommand(char*);
         /**
-            Set destination address
+            Set Rx address
             @param destination address
         */
-        boolean setDestAddress(char*);
+        boolean setRxAddress(char*);
         /**
-            Set value
+            Set action for Rx command
+            @param command action
+        */
+        boolean setRxAction(char*);
+        /**
+            Set value for Rx command
             @param command value
         */
-        boolean setValue(char*);
+        boolean setRxValue(char*);
         /**
-            
+            Set Tx command
+            @param command
         */
+        boolean setTxCommand(char*);
+        /**
+            Set Tx address
+            @param destination address
+        */
+        boolean setTxAddress(char*);
+        /**
+            Set action for Tx command
+            @param command action
+        */
+        boolean setTxAction(char*);
+        /**
+            Set value for Tx command
+            @param command value
+        */
+        boolean setTxValue(char*);
+        /**
+            Set Tx command from Tx address, action and value
+        */
+        boolean encodeTxCommand();
+}
+
+Comunicator::Communicator(char* address)
+{
+    setAddress(address);
+}
+
+char* getAddress()
+{
+    return address;
+}
+
+char* sendCommand(char* address, char* action)
+{
+    Xbee* xbee = new Xbee();
+
+    setTxAddress(address);
+    setTxAction(action);
+    encodeTxCommand();
+
+    return xbee->sendMessage(txCommand);
+}
+
+char* sendCommand(char* address, char* action, char* value)
+{
+    Xbee* xbee = new Xbee();
+
+    setTxAddress(address);
+    setTxAction(action);
+    setTxValue(value);
+    encodeTxCommand();
+
+    return xbee->sendMessage(txCommand);
+}
+
+char* resend()
+{
+    return xbee->sendMessage(txCommand);
+}
+
+boolean setAddress(char* assignedAddress)
+{
+    return !(strcmp(strcpy(address, assignedAddress), assignedAddress));
+}
+
+boolean setRxCommand(char* command)
+{
+    return !(strcmp(strcpy(rxCommand, command), command));
+}
+
+boolean setRxAddress(char* address)
+{
+    return !(strcmp(strcpy(rxAddress, address), address));
+}
+
+boolean setRxAction(char* action)
+{
+    return !(strcmp(strcpy(rxAction, action), action));
+}
+
+boolean setRxValue(char* value)
+{
+    return !(strcmp(strcpy(rxValue, value), value));
+}
+
+boolean setTxCommand(char* command)
+{
+    return !(strcmp(strcpy(txCommand, command), command));
+}
+
+boolean setTxAddress(char* address)
+{
+    return !(strcmp(strcpy(txAddress, address), address));
+}
+
+boolean setTxAction(char* action)
+{
+    return !(strcmp(strcpy(txAction, action), action));
+}
+
+boolean setTxValue(char* value)
+{
+    return !(strcmp(strcpy(txValue, value), value));
 }
