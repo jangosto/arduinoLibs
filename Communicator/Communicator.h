@@ -77,6 +77,10 @@ class Communicator
         */
         boolean setRxValue(char*);
         /**
+            Set Rx address, action and value from Rx command
+        */
+        boolean decodeRxCommand();
+        /**
             Set Tx command
             @param command
         */
@@ -133,6 +137,11 @@ char* sendCommand(char* address, char* action, char* value)
     encodeTxCommand();
 
     return xbee->sendMessage(txCommand);
+}
+
+boolean encodeTxCommand()
+{
+
 }
 
 char* resend()
