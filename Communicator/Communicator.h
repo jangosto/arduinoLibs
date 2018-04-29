@@ -5,6 +5,10 @@
 #include "Arduino.h"
 #include "Xbee.h"
 
+#define COMMAND_PREFIX "**"
+#define COMMAND_SUFIX "**"
+#define COMMAND_PART_SEPARATOR "_"
+
 /**
     Communicator Class.
     It manages communication protocol
@@ -57,6 +61,10 @@ class Communicator
         */
         boolean setAddress(char*);
         /**
+            Reset Rx attributes to NULL
+        */
+        boolean resetRx();
+        /**
             Set Rx command
             @param command
         */
@@ -80,6 +88,10 @@ class Communicator
             Set Rx address, action and value from Rx command
         */
         boolean decodeRxCommand();
+        /**
+            Reset Tx attributes to NULL
+        */
+        boolean resetTx();
         /**
             Set Tx command
             @param command
@@ -120,6 +132,7 @@ char* sendCommand(char* address, char* action)
 {
     Xbee* xbee = new Xbee();
 
+    resetTx();
     setTxAddress(address);
     setTxAction(action);
     encodeTxCommand();
@@ -131,6 +144,7 @@ char* sendCommand(char* address, char* action, char* value)
 {
     Xbee* xbee = new Xbee();
 
+    resetTx();
     setTxAddress(address);
     setTxAction(action);
     setTxValue(value);
@@ -139,9 +153,26 @@ char* sendCommand(char* address, char* action, char* value)
     return xbee->sendMessage(txCommand);
 }
 
+boolean resetTx()
+{
+    txAddress = NULL;
+    txAction = NULL;
+    txValue = NULL;
+}
+
 boolean encodeTxCommand()
 {
+    char message[30];
 
+    sprintf(message, "%s%s%s%s", COMMAND_PREFIX, txAddress, COMMAND_PART_SEPARATOR, txAction);
+
+    if (txValue != NULL && strlen(txValue) > 0) {
+        sprintf(message, "%s%s%s", message, COMMAND_PART_SEPARATOR, txValue);
+    }
+
+    sprintf(message, "%s%s", message, COMMAND_SUFIX);
+
+    return true;
 }
 
 char* resend()
